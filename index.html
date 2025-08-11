@@ -488,17 +488,21 @@
                 min-width: 80px;
                 position: sticky;
                 left: 0;
-                background: inherit;
                 z-index: 10;
-            }
-
-            .day-row td:first-child {
-                background: linear-gradient(135deg, #ffeaa7 0%, #fab1a0 100%);
+                box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
             }
 
             th:first-child {
-                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
                 border-top-left-radius: 0;
+            }
+
+            td:first-child {
+                background: white !important;
+            }
+
+            .day-row td:first-child {
+                background: linear-gradient(135deg, #ffeaa7 0%, #fab1a0 100%) !important;
             }
 
             .time {
@@ -1020,36 +1024,37 @@
             document.querySelector('.countdown-container').style.display = 'none';
             document.querySelector('.todo-container').style.display = 'none';
 
-            try {
-                // Ajustar el elemento para mejor captura
-                const originalWidth = element.style.width;
-                element.style.width = '1400px'; // Ancho fijo para mejor captura
+            // Ocultar hint de scroll en móviles
+            const scrollHint = document.querySelector('.table-scroll-hint');
+            if (scrollHint) scrollHint.style.display = 'none';
 
+            try {
                 // Usar html2canvas para capturar el contenido
                 const canvas = await html2canvas(element, {
-                    scale: 1.5,
+                    scale: 1.2,
                     useCORS: true,
                     allowTaint: true,
                     backgroundColor: '#ffffff',
-                    width: 1400,
-                    height: element.scrollHeight
+                    height: element.scrollHeight,
+                    width: element.scrollWidth
                 });
 
                 const imgData = canvas.toDataURL('image/png');
 
-                // Crear PDF en orientación horizontal (landscape)
-                const pdf = new jsPDF('l', 'mm', 'a4'); // 'l' = landscape
-                const pdfWidth = pdf.internal.pageSize.getWidth(); // ~297mm
-                const pdfHeight = pdf.internal.pageSize.getHeight(); // ~210mm
+                // Crear PDF en orientación vertical (portrait)
+                const pdf = new jsPDF('p', 'mm', 'a4'); // 'p' = portrait
+                const pdfWidth = pdf.internal.pageSize.getWidth(); // ~210mm
+                const pdfHeight = pdf.internal.pageSize.getHeight(); // ~297mm
 
-                // Calcular dimensiones para que la tabla no se corte
+                // Calcular dimensiones para que todo quepa en una página
                 const imgAspectRatio = canvas.width / canvas.height;
+
                 let imgWidth = pdfWidth - 20; // Margen de 10mm a cada lado
                 let imgHeight = imgWidth / imgAspectRatio;
 
-                // Si la imagen es muy alta, ajustar para que quepa en una página
+                // Si la altura calculada excede la página, ajustar por altura
                 if (imgHeight > pdfHeight - 20) {
-                    imgHeight = pdfHeight - 20;
+                    imgHeight = pdfHeight - 20; // Margen de 10mm arriba y abajo
                     imgWidth = imgHeight * imgAspectRatio;
                 }
 
@@ -1057,21 +1062,8 @@
                 const xOffset = (pdfWidth - imgWidth) / 2;
                 const yOffset = (pdfHeight - imgHeight) / 2;
 
-                // Agregar imagen al PDF
+                // Agregar imagen al PDF (todo en una sola página)
                 pdf.addImage(imgData, 'PNG', xOffset, yOffset, imgWidth, imgHeight);
-
-                // Si la imagen es demasiado alta para una sola página, usar páginas múltiples
-                if (canvas.height > canvas.width * 0.7) { // Imagen muy vertical
-                    pdf.addPage();
-
-                    const secondPageHeight = imgHeight - (pdfHeight - 20);
-                    if (secondPageHeight > 0) {
-                        pdf.addImage(imgData, 'PNG', xOffset, -(pdfHeight - 20), imgWidth, imgHeight);
-                    }
-                }
-
-                // Restaurar ancho original
-                element.style.width = originalWidth;
 
                 // Descargar el PDF
                 pdf.save('Itinerario-Guatemala-2025.pdf');
@@ -1084,6 +1076,7 @@
                 document.querySelector('.button-group').style.display = 'flex';
                 document.querySelector('.countdown-container').style.display = 'block';
                 document.querySelector('.todo-container').style.display = 'block';
+                if (scrollHint) scrollHint.style.display = 'block';
             }
         }
 
