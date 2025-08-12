@@ -1,966 +1,1503 @@
 <!DOCTYPE html>
 <html lang="es">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Itinerario Guatemala 19-25 Agosto 2025</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 20px;
-            padding-bottom: 120px;
-            /* Espacio para botones flotantes en móvil */
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: #333;
-            min-height: 100vh;
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        margin: 0;
+        padding: 20px;
+        padding-bottom: 120px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: #333;
+        min-height: 100vh;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+      }
+
+      .header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 30px;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .header::before {
+        content: "";
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="2" fill="rgba(255,255,255,0.1)"/></svg>')
+          repeat;
+        animation: float 20s linear infinite;
+      }
+
+      @keyframes float {
+        0% {
+          transform: translate(-50%, -50%) rotate(0deg);
         }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
+        100% {
+          transform: translate(-50%, -50%) rotate(360deg);
         }
+      }
 
-        .header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 30px;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
+      .header-content {
+        position: relative;
+        z-index: 2;
+      }
 
-        .header::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="2" fill="rgba(255,255,255,0.1)"/></svg>') repeat;
-            animation: float 20s linear infinite;
-        }
+      .header h1 {
+        margin: 0 0 10px 0;
+        font-size: 2.5em;
+        font-weight: bold;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+      }
 
-        @keyframes float {
-            0% {
-                transform: translate(-50%, -50%) rotate(0deg);
-            }
+      .header p {
+        margin: 0;
+        font-size: 1.2em;
+        opacity: 0.9;
+      }
 
-            100% {
-                transform: translate(-50%, -50%) rotate(360deg);
-            }
-        }
+      .content {
+        padding: 30px;
+      }
 
-        .header-content {
-            position: relative;
-            z-index: 2;
-        }
+      .exchange-rate {
+        background: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%);
+        padding: 15px;
+        border-radius: 10px;
+        margin-bottom: 25px;
+        text-align: center;
+        font-weight: bold;
+        color: #2c3e50;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      }
 
-        .header h1 {
-            margin: 0 0 10px 0;
-            font-size: 2.5em;
-            font-weight: bold;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-        }
+      /* Estilos base de la tabla - Desktop */
+      .table-container {
+        border-radius: 15px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+      }
 
-        .header p {
-            margin: 0;
-            font-size: 1.2em;
-            opacity: 0.9;
-        }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        background: white;
+        font-size: 0.9em;
+      }
 
+      th {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 15px 12px;
+        font-weight: bold;
+        text-align: left;
+        position: relative;
+      }
+
+      th:first-child {
+        border-top-left-radius: 15px;
+      }
+
+      th:last-child {
+        border-top-right-radius: 15px;
+      }
+
+      td {
+        padding: 12px;
+        border-bottom: 1px solid #e1e5e9;
+        vertical-align: top;
+        transition: background-color 0.3s ease;
+      }
+
+      tr:hover td {
+        background-color: #f8f9fa;
+      }
+
+      .day-row {
+        background: linear-gradient(135deg, #ffeaa7 0%, #fab1a0 100%);
+        font-weight: bold;
+        color: #2d3436;
+      }
+
+      .day-row td {
+        border-bottom: 2px solid #ddd;
+        padding: 15px 12px;
+      }
+
+      /* Diseño responsivo para móviles - Tabla completamente fija */
+      @media (max-width: 768px) {
         .content {
-            padding: 30px;
-        }
-
-        .exchange-rate {
-            background: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%);
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 25px;
-            text-align: center;
-            font-weight: bold;
-            color: #2c3e50;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+          padding: 15px;
         }
 
         .table-container {
-            overflow-x: auto;
-            border-radius: 15px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-            -webkit-overflow-scrolling: touch;
-            position: relative;
+          border-radius: 15px;
+          box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+          overflow: visible;
+          -webkit-overflow-scrolling: touch;
         }
 
         .table-scroll-hint {
-            display: none;
-            background: rgba(0, 184, 148, 0.9);
-            color: white;
-            padding: 8px 15px;
-            font-size: 0.8em;
-            text-align: center;
-            position: sticky;
-            top: 0;
-            z-index: 20;
-        }
-
-        @media (max-width: 768px) {
-            .table-scroll-hint {
-                display: block;
-            }
+          display: none;
         }
 
         table {
-            width: 100%;
-            border-collapse: collapse;
-            background: white;
-            font-size: 0.9em;
+          width: 100%;
+          font-size: 0.75em;
+          table-layout: fixed;
         }
 
-        th {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 15px 12px;
-            font-weight: bold;
-            text-align: left;
-            position: relative;
-        }
-
-        th:first-child {
-            border-top-left-radius: 15px;
-        }
-
-        th:last-child {
-            border-top-right-radius: 15px;
-        }
-
+        th,
         td {
-            padding: 12px;
-            border-bottom: 1px solid #e1e5e9;
-            vertical-align: top;
-            transition: background-color 0.3s ease;
+          padding: 8px 6px;
+          font-size: 0.9em;
+          word-wrap: break-word;
+          vertical-align: top;
         }
 
-        tr:hover td {
-            background-color: #f8f9fa;
+        /* Todas las columnas fijas - sin sticky positioning */
+        th:first-child,
+        td:first-child {
+          width: 15%;
         }
 
-        .day-row {
-            background: linear-gradient(135deg, #ffeaa7 0%, #fab1a0 100%);
-            font-weight: bold;
-            color: #2d3436;
+        th:nth-child(2),
+        td:nth-child(2) {
+          width: 30%;
         }
 
+        th:nth-child(3),
+        td:nth-child(3) {
+          width: 15%;
+        }
+
+        th:nth-child(4),
+        td:nth-child(4) {
+          width: 20%;
+        }
+
+        th:nth-child(5),
+        td:nth-child(5) {
+          width: 20%;
+        }
+
+        /* Sin position sticky - todas las columnas estáticas */
+        th,
+        td {
+          position: static !important;
+          background: inherit !important;
+          box-shadow: none !important;
+        }
+
+        /* Headers con gradiente */
+        th {
+          background: linear-gradient(
+            135deg,
+            #667eea 0%,
+            #764ba2 100%
+          ) !important;
+          color: white !important;
+        }
+
+        /* Filas de día con gradiente */
         .day-row td {
-            border-bottom: 2px solid #ddd;
-            padding: 15px 12px;
+          background: linear-gradient(
+            135deg,
+            #ffeaa7 0%,
+            #fab1a0 100%
+          ) !important;
+          color: #2d3436 !important;
+          font-weight: bold !important;
         }
 
-        .price-gtq {
-            color: #00b894;
-            font-weight: bold;
+        /* Filas normales */
+        tr:not(.day-row) td {
+          background: white !important;
         }
 
-        .price-usd {
-            color: #0984e3;
-            font-weight: bold;
+        tr:not(.day-row):hover td {
+          background-color: #f8f9fa !important;
+        }
+      }
+
+      @media (max-width: 480px) {
+        table {
+          font-size: 0.65em;
         }
 
-        .activity-icon {
-            display: inline-block;
-            margin-right: 8px;
-            font-size: 1.2em;
+        th,
+        td {
+          padding: 6px 4px;
+          font-size: 0.85em;
         }
 
-        .recommendations {
-            background: #f1f3f4;
-            padding: 8px;
-            border-radius: 5px;
-            font-size: 0.85em;
-            line-height: 1.4;
+        /* Mantener proporciones en pantallas muy pequeñas */
+        th:first-child,
+        td:first-child {
+          width: 12%;
         }
 
-        .time {
-            background: linear-gradient(135deg, #fd79a8 0%, #fdcb6e 100%);
-            color: white;
-            padding: 4px 8px;
-            border-radius: 15px;
-            font-size: 0.8em;
-            font-weight: bold;
-            display: inline-block;
+        th:nth-child(2),
+        td:nth-child(2) {
+          width: 35%;
         }
 
-        .footer {
-            background: #2d3436;
-            color: white;
-            padding: 20px;
-            text-align: center;
-            font-size: 0.9em;
+        th:nth-child(3),
+        td:nth-child(3) {
+          width: 13%;
         }
 
-        .print-button {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: linear-gradient(135deg, #00b894 0%, #00cec9 100%);
-            color: white;
-            border: none;
-            padding: 15px 25px;
-            border-radius: 50px;
-            cursor: pointer;
-            font-weight: bold;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            transition: transform 0.3s ease;
-            z-index: 1000;
+        th:nth-child(4),
+        td:nth-child(4) {
+          width: 20%;
         }
 
-        .print-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        th:nth-child(5),
+        td:nth-child(5) {
+          width: 20%;
+        }
+      }
+
+      /* Hint de scroll para móviles */
+      .table-scroll-hint {
+        display: none;
+      }
+
+      /* Cards para móvil (mantenidas como fallback) */
+      .mobile-itinerary {
+        display: none;
+      }
+
+      .day-card {
+        background: linear-gradient(135deg, #ffeaa7 0%, #fab1a0 100%);
+        border-radius: 15px;
+        margin-bottom: 20px;
+        padding: 20px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      .day-title {
+        font-size: 1.1em;
+        font-weight: bold;
+        color: #2d3436;
+        margin-bottom: 15px;
+        text-align: center;
+      }
+
+      .activity-card {
+        background: white;
+        border-radius: 10px;
+        padding: 15px;
+        margin-bottom: 15px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .activity-card:last-child {
+        margin-bottom: 0;
+      }
+
+      .activity-header {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 10px;
+      }
+
+      .activity-name {
+        font-weight: bold;
+        font-size: 1em;
+        color: #2d3436;
+        flex: 1;
+      }
+
+      .activity-time {
+        background: linear-gradient(135deg, #fd79a8 0%, #fdcb6e 100%);
+        color: white;
+        padding: 4px 8px;
+        border-radius: 15px;
+        font-size: 0.7em;
+        font-weight: bold;
+        white-space: nowrap;
+      }
+
+      .activity-details {
+        font-size: 0.85em;
+        color: #636e72;
+        margin-bottom: 10px;
+        line-height: 1.4;
+      }
+
+      .activity-info {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        margin-top: 10px;
+      }
+
+      .info-section {
+        background: #f8f9fa;
+        padding: 8px;
+        border-radius: 6px;
+      }
+
+      .info-title {
+        font-weight: bold;
+        font-size: 0.75em;
+        color: #2d3436;
+        margin-bottom: 4px;
+        text-transform: uppercase;
+      }
+
+      .info-content {
+        font-size: 0.8em;
+        line-height: 1.3;
+      }
+
+      .price-gtq {
+        color: #00b894;
+        font-weight: bold;
+      }
+
+      .price-usd {
+        color: #0984e3;
+        font-weight: bold;
+      }
+
+      .activity-icon {
+        display: inline-block;
+        margin-right: 8px;
+        font-size: 1.2em;
+      }
+
+      .recommendations {
+        background: #f1f3f4;
+        padding: 8px;
+        border-radius: 5px;
+        font-size: 0.85em;
+        line-height: 1.4;
+      }
+
+      .time {
+        background: linear-gradient(135deg, #fd79a8 0%, #fdcb6e 100%);
+        color: white;
+        padding: 4px 8px;
+        border-radius: 15px;
+        font-size: 0.8em;
+        font-weight: bold;
+        display: inline-block;
+      }
+
+      .footer {
+        background: #2d3436;
+        color: white;
+        padding: 20px;
+        text-align: center;
+        font-size: 0.9em;
+      }
+
+      .button-group {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        display: flex;
+        gap: 10px;
+        z-index: 1000;
+      }
+
+      .btn {
+        background: linear-gradient(135deg, #00b894 0%, #00cec9 100%);
+        color: white;
+        border: none;
+        padding: 12px 20px;
+        border-radius: 25px;
+        cursor: pointer;
+        font-weight: bold;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        transition: transform 0.3s ease;
+        font-size: 0.9em;
+      }
+
+      .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+      }
+
+      .btn-pdf {
+        background: linear-gradient(135deg, #e84393 0%, #fd79a8 100%);
+      }
+
+      /* Countdown y ToDo containers */
+      .countdown-container {
+        background: linear-gradient(135deg, #ff7675 0%, #fd79a8 100%);
+        color: white;
+        padding: 20px;
+        border-radius: 15px;
+        margin-bottom: 25px;
+        text-align: center;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+      }
+
+      .countdown-title {
+        font-size: 1.2em;
+        font-weight: bold;
+        margin-bottom: 15px;
+      }
+
+      .countdown-display {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        flex-wrap: wrap;
+      }
+
+      .countdown-item {
+        background: rgba(255, 255, 255, 0.2);
+        padding: 10px 15px;
+        border-radius: 10px;
+        text-align: center;
+        backdrop-filter: blur(10px);
+        min-width: 70px;
+      }
+
+      .countdown-number {
+        font-size: 2em;
+        font-weight: bold;
+        display: block;
+      }
+
+      .countdown-label {
+        font-size: 0.8em;
+        opacity: 0.9;
+      }
+
+      .todo-container {
+        background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);
+        color: white;
+        padding: 20px;
+        border-radius: 15px;
+        margin-bottom: 25px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        transition: all 0.3s ease;
+      }
+
+      .todo-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        cursor: pointer;
+        margin-bottom: 15px;
+      }
+
+      .todo-title {
+        font-size: 1.2em;
+        font-weight: bold;
+        margin: 0;
+      }
+
+      .todo-toggle {
+        font-size: 1.5em;
+        transition: transform 0.3s ease;
+      }
+
+      .todo-toggle.collapsed {
+        transform: rotate(-90deg);
+      }
+
+      .todo-content {
+        overflow: hidden;
+        transition: max-height 0.3s ease;
+      }
+
+      .todo-content.collapsed {
+        max-height: 0;
+        margin-top: 0;
+      }
+
+      .todo-content.expanded {
+        max-height: 1000px;
+      }
+
+      .todo-progress {
+        background: rgba(255, 255, 255, 0.2);
+        height: 10px;
+        border-radius: 5px;
+        margin-bottom: 15px;
+        overflow: hidden;
+      }
+
+      .todo-progress-bar {
+        background: linear-gradient(90deg, #00b894, #00cec9);
+        height: 100%;
+        border-radius: 5px;
+        transition: width 0.3s ease;
+      }
+
+      .todo-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 15px;
+      }
+
+      .todo-item {
+        background: rgba(255, 255, 255, 0.15);
+        padding: 12px;
+        border-radius: 10px;
+        backdrop-filter: blur(10px);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .todo-item:hover {
+        background: rgba(255, 255, 255, 0.25);
+        transform: translateY(-2px);
+      }
+
+      .todo-checkbox {
+        width: 20px;
+        height: 20px;
+        border: 2px solid white;
+        border-radius: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+        flex-shrink: 0;
+      }
+
+      .todo-item.completed {
+        opacity: 0.7;
+      }
+
+      .todo-item.completed .todo-checkbox {
+        background: #00b894;
+        border-color: #00b894;
+      }
+
+      .todo-text {
+        flex: 1;
+        font-size: 0.9em;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .activity-day {
+        font-size: 0.7em;
+        opacity: 0.8;
+        margin-top: 2px;
+      }
+
+      .todo-item.completed .todo-text {
+        text-decoration: line-through;
+      }
+
+      .progress-text {
+        text-align: center;
+        margin-bottom: 10px;
+        font-weight: bold;
+      }
+
+      /* Ajustes para móviles muy pequeños */
+      @media (max-width: 480px) {
+        .header h1 {
+          font-size: 1.8em;
         }
 
-        .button-group {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            display: flex;
-            gap: 10px;
-            z-index: 1000;
-        }
-
-        .btn {
-            background: linear-gradient(135deg, #00b894 0%, #00cec9 100%);
-            color: white;
-            border: none;
-            padding: 12px 20px;
-            border-radius: 25px;
-            cursor: pointer;
-            font-weight: bold;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            transition: transform 0.3s ease;
-            font-size: 0.9em;
-        }
-
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-        }
-
-        .btn-pdf {
-            background: linear-gradient(135deg, #e84393 0%, #fd79a8 100%);
-        }
-
-        .countdown-container {
-            background: linear-gradient(135deg, #ff7675 0%, #fd79a8 100%);
-            color: white;
-            padding: 20px;
-            border-radius: 15px;
-            margin-bottom: 25px;
-            text-align: center;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-        }
-
-        .countdown-title {
-            font-size: 1.2em;
-            font-weight: bold;
-            margin-bottom: 15px;
-        }
-
-        .countdown-display {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            flex-wrap: wrap;
-        }
-
-        .countdown-item {
-            background: rgba(255, 255, 255, 0.2);
-            padding: 10px 15px;
-            border-radius: 10px;
-            text-align: center;
-            backdrop-filter: blur(10px);
-            min-width: 70px;
+        .header p {
+          font-size: 1em;
         }
 
         .countdown-number {
-            font-size: 2em;
-            font-weight: bold;
-            display: block;
+          font-size: 1.5em;
         }
 
-        .countdown-label {
-            font-size: 0.8em;
-            opacity: 0.9;
+        .countdown-item {
+          min-width: 60px;
+          padding: 8px 10px;
+        }
+
+        .button-group {
+          flex-direction: column;
+          top: 10px;
+          right: 10px;
+        }
+
+        .btn {
+          padding: 10px 15px;
+          font-size: 0.8em;
+        }
+      }
+
+      @media print {
+        body {
+          background: white;
+        }
+
+        .button-group {
+          display: none;
+        }
+
+        .container {
+          box-shadow: none;
+        }
+
+        .countdown-container {
+          display: none;
         }
 
         .todo-container {
-            background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);
-            color: white;
-            padding: 20px;
-            border-radius: 15px;
-            margin-bottom: 25px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+          display: none;
         }
 
-        .todo-title {
-            font-size: 1.2em;
-            font-weight: bold;
-            margin-bottom: 15px;
-            text-align: center;
+        .mobile-itinerary {
+          display: none !important;
         }
 
-        .todo-progress {
-            background: rgba(255, 255, 255, 0.2);
-            height: 10px;
-            border-radius: 5px;
-            margin-bottom: 15px;
-            overflow: hidden;
+        table {
+          display: table !important;
         }
-
-        .todo-progress-bar {
-            background: linear-gradient(90deg, #00b894, #00cec9);
-            height: 100%;
-            border-radius: 5px;
-            transition: width 0.3s ease;
-        }
-
-        .todo-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 15px;
-        }
-
-        .todo-item {
-            background: rgba(255, 255, 255, 0.15);
-            padding: 12px;
-            border-radius: 10px;
-            backdrop-filter: blur(10px);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .todo-item:hover {
-            background: rgba(255, 255, 255, 0.25);
-            transform: translateY(-2px);
-        }
-
-        .todo-checkbox {
-            width: 20px;
-            height: 20px;
-            border: 2px solid white;
-            border-radius: 4px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 14px;
-            flex-shrink: 0;
-        }
-
-        .todo-item.completed {
-            opacity: 0.7;
-        }
-
-        .todo-item.completed .todo-checkbox {
-            background: #00b894;
-            border-color: #00b894;
-        }
-
-        .todo-text {
-            flex: 1;
-            font-size: 0.9em;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .activity-day {
-            font-size: 0.7em;
-            opacity: 0.8;
-            margin-top: 2px;
-        }
-
-        .todo-item.completed .todo-text {
-            text-decoration: line-through;
-        }
-
-        .progress-text {
-            text-align: center;
-            margin-bottom: 10px;
-            font-weight: bold;
-        }
-
-        @media print {
-            body {
-                background: white;
-            }
-
-            .button-group {
-                display: none;
-            }
-
-            .container {
-                box-shadow: none;
-            }
-
-            .countdown-container {
-                display: none;
-            }
-
-            .todo-container {
-                display: none;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .header h1 {
-                font-size: 1.8em;
-            }
-
-            .content {
-                padding: 15px;
-            }
-
-            .countdown-display {
-                gap: 8px;
-            }
-
-            .countdown-item {
-                min-width: 60px;
-                padding: 8px 10px;
-            }
-
-            .countdown-number {
-                font-size: 1.5em;
-            }
-
-            .todo-list {
-                grid-template-columns: 1fr;
-                gap: 10px;
-            }
-
-            .todo-item {
-                padding: 15px 12px;
-            }
-
-            .button-group {
-                position: fixed;
-                bottom: 20px;
-                right: 15px;
-                top: auto;
-                flex-direction: column;
-            }
-
-            .btn {
-                padding: 12px 16px;
-                font-size: 0.85em;
-                white-space: nowrap;
-            }
-
-            .table-container {
-                margin: 0 -15px;
-                border-radius: 0;
-                overflow-x: auto;
-                -webkit-overflow-scrolling: touch;
-            }
-
-            table {
-                min-width: 800px;
-                font-size: 0.75em;
-            }
-
-            th,
-            td {
-                padding: 8px 6px;
-                min-width: 120px;
-            }
-
-            th:first-child,
-            td:first-child {
-                min-width: 80px;
-                position: sticky;
-                left: 0;
-                z-index: 10;
-                box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-            }
-
-            th:first-child {
-                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
-                border-top-left-radius: 0;
-            }
-
-            td:first-child {
-                background: white !important;
-            }
-
-            .day-row td:first-child {
-                background: linear-gradient(135deg, #ffeaa7 0%, #fab1a0 100%) !important;
-            }
-
-            .time {
-                font-size: 0.7em;
-                padding: 3px 6px;
-                white-space: nowrap;
-            }
-
-            .price-gtq,
-            .price-usd {
-                font-size: 0.8em;
-            }
-
-            .recommendations {
-                font-size: 0.75em;
-                padding: 6px;
-            }
-
-            .activity-icon {
-                font-size: 1em;
-                margin-right: 4px;
-            }
-
-            .exchange-rate {
-                font-size: 0.9em;
-                padding: 12px;
-                margin: 0 -15px 20px -15px;
-                border-radius: 0;
-            }
-
-            .footer {
-                font-size: 0.8em;
-                padding: 15px;
-            }
-        }
+      }
     </style>
-</head>
+  </head>
 
-<body>
+  <body>
     <div class="button-group">
-        <button class="btn btn-pdf" onclick="downloadPDF()">📄 Descargar PDF</button>
-        <button class="btn" onclick="window.print()">🖨️ Imprimir</button>
+      <button class="btn btn-pdf" onclick="downloadPDF()">
+        📄 Descargar PDF
+      </button>
+      <button class="btn" onclick="window.print()">🖨️ Imprimir</button>
     </div>
 
     <div class="container">
-        <div class="header">
-            <div class="header-content">
-                <h1>🇬🇹 Itinerario Guatemala</h1>
-                <p>19 - 25 de Agosto 2025 | Viaje Familiar</p>
-            </div>
+      <div class="header">
+        <div class="header-content">
+          <h1>🇬🇹 Itinerario Guatemala</h1>
+          <p>19 - 25 de Agosto 2025 | Viaje Familiar</p>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="countdown-container">
+          <div class="countdown-title">⏰ Tiempo restante para el viaje</div>
+          <div class="countdown-display" id="countdown">
+            <!-- Se llenará con JavaScript -->
+          </div>
         </div>
 
-        <div class="content">
-            <div class="countdown-container">
-                <div class="countdown-title">⏰ Tiempo restante para el viaje</div>
-                <div class="countdown-display" id="countdown">
-                    <!-- Se llenará con JavaScript -->
-                </div>
+        <div class="todo-container">
+          <div class="todo-header" onclick="toggleTodoSection()">
+            <div class="todo-title">🗓️ Actividades del Itinerario</div>
+            <div class="todo-toggle" id="todoToggle">🔽</div>
+          </div>
+          <div class="todo-content collapsed" id="todoContent">
+            <div class="progress-text" id="progressText">
+              0 de 13 actividades completadas
             </div>
-
-            <div class="todo-container">
-                <div class="todo-title">🗓️ Actividades del Itinerario</div>
-                <div class="progress-text" id="progressText">0 de 13 actividades completadas</div>
-                <div class="todo-progress">
-                    <div class="todo-progress-bar" id="progressBar" style="width: 0%"></div>
-                </div>
-                <div class="todo-list" id="todoList">
-                    <!-- Se llenará con JavaScript -->
-                </div>
+            <div class="todo-progress">
+              <div
+                class="todo-progress-bar"
+                id="progressBar"
+                style="width: 0%"
+              ></div>
             </div>
-
-            <div class="exchange-rate">
-                💱 Tipo de cambio utilizado: 1 USD = Q7.69 (Agosto 2025)
+            <div class="todo-list" id="todoList">
+              <!-- Se llenará con JavaScript -->
             </div>
-
-            <div class="table-container">
-                <div class="table-scroll-hint">👈👉 Desliza horizontalmente para ver toda la tabla</div>
-                <table>
-                    <thead>
-                        <tr>
-                            <th style="width: 15%;">Fecha</th>
-                            <th style="width: 25%;">Actividades</th>
-                            <th style="width: 15%;">Horarios</th>
-                            <th style="width: 15%;">Precios</th>
-                            <th style="width: 30%;">Recomendaciones</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <!-- Día 1 -->
-                        <tr class="day-row">
-                            <td colspan="5">
-                                <span class="activity-icon">✈️</span>
-                                MARTES 19 DE AGOSTO - DÍA 1: Llegada a Ciudad de Guatemala
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>19 Agosto</td>
-                            <td>
-                                <span class="activity-icon">🦁</span>
-                                <strong>Zoológico La Aurora</strong><br>
-                                • Tours VIP opcionales:<br>
-                                - Tour de Paquidermos<br>
-                                - Tour de Pingüinos<br>
-                                - Tour Mixto
-                            </td>
-                            <td>
-                                <div class="time">Llegada: 10:30 AM</div>
-                            </td>
-                            <td>
-                                <div class="price-gtq">Entrada: Q45.00</div>
-                                <div class="price-usd">($5.85)</div>
-                                <hr style="margin: 5px 0;">
-                                <div class="price-gtq">Tour Paquidermos: Q200.00</div>
-                                <div class="price-usd">($26.01)</div>
-                                <div class="price-gtq">Tour Pingüinos: Q250.00</div>
-                                <div class="price-usd">($32.51)</div>
-                                <div class="price-gtq">Tour Mixto: Q150.00</div>
-                                <div class="price-usd">($19.51)</div>
-                            </td>
-                            <td>
-                                <div class="recommendations">
-                                    <strong>Ropa:</strong> Ligera y cómoda<br>
-                                    <strong>Calzado:</strong> Deportivo<br>
-                                    <strong>Otros:</strong> Protector solar, sombrero, agua
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td>
-                                <span class="activity-icon">🍽️</span>
-                                <strong>Cena en Ciudad Cayala</strong><br>
-                                (Traslado en Uber)
-                            </td>
-                            <td>
-                                <div class="time">Noche</div>
-                            </td>
-                            <td>-</td>
-                            <td>-</td>
-                        </tr>
-
-                        <!-- Día 2 -->
-                        <tr class="day-row">
-                            <td colspan="5">
-                                <span class="activity-icon">🏙️</span>
-                                MIÉRCOLES 20 DE AGOSTO - DÍA 2: Ciudad de Guatemala
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>20 Agosto</td>
-                            <td>
-                                <span class="activity-icon">🚌</span>
-                                <strong>City Tour Ciudad de Guatemala</strong><br>
-                                <span class="activity-icon">🏛️</span>
-                                <strong>Visita a Ciudad Cayalá</strong>
-                            </td>
-                            <td>
-                                <div class="time">Recogida: 9:00 AM</div>
-                            </td>
-                            <td>-</td>
-                            <td>
-                                <div class="recommendations">
-                                    <strong>Ropa:</strong> Casual y cómoda<br>
-                                    <strong>Calzado:</strong> Cómodo para caminar<br>
-                                    <strong>Otros:</strong> Efectivo para compras
-                                </div>
-                            </td>
-                        </tr>
-
-                        <!-- Día 3 -->
-                        <tr class="day-row">
-                            <td colspan="5">
-                                <span class="activity-icon">🏞️</span>
-                                JUEVES 21 DE AGOSTO - DÍA 3: Antigua Guatemala y alrededores
-                            </td>
-                        </tr>
-                        <tr>
-                            <td rowspan="3">21 Agosto</td>
-                            <td>
-                                <span class="activity-icon">🏰</span>
-                                <strong>Antigua Guatemala</strong>
-                            </td>
-                            <td rowspan="3">
-                                <div class="time">Recogida: 7:00 AM</div>
-                            </td>
-                            <td>-</td>
-                            <td rowspan="3">
-                                <div class="recommendations">
-                                    <strong>Ropa:</strong> Deportiva y cómoda<br>
-                                    <strong>Calzado:</strong> De montaña con tracción<br>
-                                    <strong>Otros:</strong> Chaqueta ligera, protector solar, repelente, efectivo
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <span class="activity-icon">🧙‍♂️</span>
-                                <strong>Hobbitenango</strong><br>
-                                Incluye: Transporte interno, juegos ilimitados, miradores y senderos
-                            </td>
-                            <td>
-                                <div class="price-gtq">Entrada: Q50.00</div>
-                                <div class="price-usd">($6.50)</div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <span class="activity-icon">🌄</span>
-                                <strong>Altamira</strong>
-                            </td>
-                            <td>
-                                <div class="price-gtq">Entrada: Q25.00</div>
-                                <div class="price-usd">($3.25)</div>
-                            </td>
-                        </tr>
-
-                        <!-- Día 4 -->
-                        <tr class="day-row">
-                            <td colspan="5">
-                                <span class="activity-icon">🌊</span>
-                                VIERNES 22 DE AGOSTO - DÍA 4: Lago Atitlán
-                            </td>
-                        </tr>
-                        <tr>
-                            <td rowspan="4">22 Agosto</td>
-                            <td>
-                                <span class="activity-icon">🚗</span>
-                                <strong>Traslado a Panajachel</strong>
-                            </td>
-                            <td rowspan="4">
-                                <div class="time">Recogida: 4:30 AM</div>
-                            </td>
-                            <td>-</td>
-                            <td rowspan="4">
-                                <div class="recommendations">
-                                    <strong>Ropa:</strong> Ligera y cómoda<br>
-                                    <strong>Calzado:</strong> Sandalias o cómodos<br>
-                                    <strong>Otros:</strong> Traje de baño, protector solar, sombrero, efectivo
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <span class="activity-icon">🛶</span>
-                                <strong>Paseo en lancha Lago Atitlán</strong><br>
-                                Visita a San Juan de la Laguna
-                            </td>
-                            <td>-</td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <span class="activity-icon">👁️</span>
-                                <strong>Mirador Kaqasiiwaan</strong>
-                            </td>
-                            <td>
-                                <div class="price-gtq">Entrada: Q10.00</div>
-                                <div class="price-usd">($1.30)</div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <span class="activity-icon">🏠</span>
-                                <strong>Casa Dos Mundos</strong>
-                            </td>
-                            <td>
-                                <div class="price-gtq">Entrada: Q50.00</div>
-                                <div class="price-usd">($6.50)</div>
-                            </td>
-                        </tr>
-
-                        <!-- Día 5 -->
-                        <tr class="day-row">
-                            <td colspan="5">
-                                <span class="activity-icon">🎢</span>
-                                SÁBADO 23 DE AGOSTO - DÍA 5: Parque de Diversiones Xetulul
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>23 Agosto</td>
-                            <td>
-                                <span class="activity-icon">🎠</span>
-                                <strong>Parque de Diversiones Xetulul</strong>
-                            </td>
-                            <td>
-                                <div class="time">Recogida: 5:00 AM</div>
-                            </td>
-                            <td>
-                                <div class="price-gtq">Entrada: Q100.00</div>
-                                <div class="price-usd">($13.00)</div>
-                            </td>
-                            <td>
-                                <div class="recommendations">
-                                    <strong>Ropa:</strong> Casual y cómoda<br>
-                                    <strong>Calzado:</strong> Deportivo<br>
-                                    <strong>Otros:</strong> Protector solar, gorra, agua
-                                </div>
-                            </td>
-                        </tr>
-
-                        <!-- Día 6 -->
-                        <tr class="day-row">
-                            <td colspan="5">
-                                <span class="activity-icon">🌋</span>
-                                DOMINGO 24 DE AGOSTO - DÍA 6: Ascenso al Volcán Pacaya
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>24 Agosto</td>
-                            <td>
-                                <span class="activity-icon">🥾</span>
-                                <strong>Ascenso Volcán Pacaya</strong><br>
-                                Opcional: Alquiler de caballo
-                            </td>
-                            <td>
-                                <div class="time">Recogida: 7:00 AM</div>
-                            </td>
-                            <td>
-                                <div class="price-gtq">Entrada: Q100.00</div>
-                                <div class="price-usd">($13.00)</div>
-                                <hr style="margin: 5px 0;">
-                                <div class="price-gtq">Caballo: Q200.00</div>
-                                <div class="price-usd">($26.01)</div>
-                            </td>
-                            <td>
-                                <div class="recommendations">
-                                    <strong>Ropa:</strong> Deportiva en capas<br>
-                                    <strong>Calzado:</strong> De montaña con tracción<br>
-                                    <strong>Otros:</strong> Chaqueta impermeable, agua, snacks, protector, bastón,
-                                    efectivo
-                                </div>
-                            </td>
-                        </tr>
-
-                        <!-- Día 7 -->
-                        <tr class="day-row">
-                            <td colspan="5">
-                                <span class="activity-icon">✈️</span>
-                                LUNES 25 DE AGOSTO - DÍA 7: Regreso a Panamá
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>25 Agosto</td>
-                            <td>
-                                <span class="activity-icon">🛫</span>
-                                <strong>Vuelo de regreso a Panamá</strong>
-                            </td>
-                            <td>
-                                <div class="time">Por confirmar</div>
-                            </td>
-                            <td>-</td>
-                            <td>
-                                <div class="recommendations">
-                                    <strong>Preparativos:</strong> Check-out hotel, equipaje listo<br>
-                                    <strong>Documentos:</strong> Pasaportes, boletos
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <div
-                style="margin-top: 30px; padding: 20px; background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); border-radius: 15px;">
-                <h3 style="margin: 0 0 15px 0; color: #2d3436;">💰 Resumen de Costos por Persona:</h3>
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px;">
-                    <div>
-                        <strong>Entradas Obligatorias:</strong><br>
-                        • Zoológico: Q45.00 ($5.85)<br>
-                        • Hobbitenango: Q50.00 ($6.50)<br>
-                        • Altamira: Q25.00 ($3.25)<br>
-                        • Mirador Kaqasiiwaan: Q10.00 ($1.30)<br>
-                        • Casa Dos Mundos: Q50.00 ($6.50)<br>
-                        • Xetulul: Q100.00 ($13.00)<br>
-                        • Volcán Pacaya: Q100.00 ($13.00)
-                    </div>
-                    <div>
-                        <strong>Total Mínimo:</strong><br>
-                        <span style="color: #00b894; font-size: 1.2em; font-weight: bold;">Q380.00
-                            ($49.40)</span><br><br>
-                        <strong>Opcionales Adicionales:</strong><br>
-                        • Tours VIP Zoo: Q150-250 ($19.51-32.51)<br>
-                        • Caballo Volcán: Q200 ($26.01)
-                    </div>
-                </div>
-            </div>
+          </div>
         </div>
 
-        <div class="footer">
-            <p>📍 Itinerario Guatemala 2025 | Generado el 11 de Agosto de 2025</p>
-            <p style="opacity: 0.7; font-size: 0.8em;">Precios sujetos a cambios. Verificar antes del viaje.</p>
+        <div class="exchange-rate">
+          💱 Tipo de cambio utilizado: 1 USD = Q7.69 (Agosto 2025)
         </div>
+
+        <!-- Tabla para todas las pantallas -->
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th style="width: 15%">Fecha</th>
+                <th style="width: 25%">Actividades</th>
+                <th style="width: 15%">Horarios</th>
+                <th style="width: 15%">Precios</th>
+                <th style="width: 30%">Recomendaciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Día 1 -->
+              <tr class="day-row">
+                <td colspan="5">
+                  <span class="activity-icon">✈️</span>
+                  MARTES 19 DE AGOSTO - DÍA 1: Llegada a Ciudad de Guatemala
+                </td>
+              </tr>
+              <tr>
+                <td>19 Agosto</td>
+                <td>
+                  <span class="activity-icon">🦁</span>
+                  <strong>Zoológico La Aurora</strong><br />
+                  • Tours VIP opcionales:<br />
+                  - Tour de Paquidermos<br />
+                  - Tour de Pingüinos<br />
+                  - Tour Mixto
+                </td>
+                <td>
+                  <div class="time">Llegada: 10:30 AM</div>
+                </td>
+                <td>
+                  <div class="price-gtq">Entrada: Q45.00</div>
+                  <div class="price-usd">($5.85)</div>
+                  <hr style="margin: 5px 0" />
+                  <div class="price-gtq">Tour Paquidermos: Q200.00</div>
+                  <div class="price-usd">($26.01)</div>
+                  <div class="price-gtq">Tour Pingüinos: Q250.00</div>
+                  <div class="price-usd">($32.51)</div>
+                  <div class="price-gtq">Tour Mixto: Q150.00</div>
+                  <div class="price-usd">($19.51)</div>
+                </td>
+                <td>
+                  <div class="recommendations">
+                    <strong>Ropa:</strong> Ligera y cómoda<br />
+                    <strong>Calzado:</strong> Deportivo<br />
+                    <strong>Otros:</strong> Protector solar, sombrero, agua
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td></td>
+                <td>
+                  <span class="activity-icon">🍽️</span>
+                  <strong>Cena en Ciudad Cayala</strong><br />
+                  (Traslado en Uber)
+                </td>
+                <td>
+                  <div class="time">Noche</div>
+                </td>
+                <td>-</td>
+                <td>-</td>
+              </tr>
+
+              <!-- Día 2 -->
+              <tr class="day-row">
+                <td colspan="5">
+                  <span class="activity-icon">🏙️</span>
+                  MIÉRCOLES 20 DE AGOSTO - DÍA 2: Ciudad de Guatemala
+                </td>
+              </tr>
+              <tr>
+                <td>20 Agosto</td>
+                <td>
+                  <span class="activity-icon">🚌</span>
+                  <strong>City Tour Ciudad de Guatemala</strong><br />
+                  <span class="activity-icon">🏛️</span>
+                  <strong>Visita a Ciudad Cayalá</strong>
+                </td>
+                <td>
+                  <div class="time">Recogida: 9:00 AM</div>
+                </td>
+                <td>-</td>
+                <td>
+                  <div class="recommendations">
+                    <strong>Ropa:</strong> Casual y cómoda<br />
+                    <strong>Calzado:</strong> Cómodo para caminar<br />
+                    <strong>Otros:</strong> Efectivo para compras
+                  </div>
+                </td>
+              </tr>
+
+              <!-- Día 3 -->
+              <tr class="day-row">
+                <td colspan="5">
+                  <span class="activity-icon">🏞️</span>
+                  JUEVES 21 DE AGOSTO - DÍA 3: Antigua Guatemala y alrededores
+                </td>
+              </tr>
+              <tr>
+                <td rowspan="3">21 Agosto</td>
+                <td>
+                  <span class="activity-icon">🏰</span>
+                  <strong>Antigua Guatemala</strong>
+                </td>
+                <td rowspan="3">
+                  <div class="time">Recogida: 7:00 AM</div>
+                </td>
+                <td>-</td>
+                <td rowspan="3">
+                  <div class="recommendations">
+                    <strong>Ropa:</strong> Deportiva y cómoda<br />
+                    <strong>Calzado:</strong> De montaña con tracción<br />
+                    <strong>Otros:</strong> Chaqueta ligera, protector solar,
+                    repelente, efectivo
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <span class="activity-icon">🧙‍♂️</span>
+                  <strong>Hobbitenango</strong><br />
+                  Incluye: Transporte interno, juegos ilimitados, miradores y
+                  senderos
+                </td>
+                <td>
+                  <div class="price-gtq">Entrada: Q50.00</div>
+                  <div class="price-usd">($6.50)</div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <span class="activity-icon">🌄</span>
+                  <strong>Altamira</strong>
+                </td>
+                <td>
+                  <div class="price-gtq">Entrada: Q25.00</div>
+                  <div class="price-usd">($3.25)</div>
+                </td>
+              </tr>
+
+              <!-- Día 4 -->
+              <tr class="day-row">
+                <td colspan="5">
+                  <span class="activity-icon">🌊</span>
+                  VIERNES 22 DE AGOSTO - DÍA 4: Lago Atitlán
+                </td>
+              </tr>
+              <tr>
+                <td rowspan="4">22 Agosto</td>
+                <td>
+                  <span class="activity-icon">🚗</span>
+                  <strong>Traslado a Panajachel</strong>
+                </td>
+                <td rowspan="4">
+                  <div class="time">Recogida: 4:30 AM</div>
+                </td>
+                <td>-</td>
+                <td rowspan="4">
+                  <div class="recommendations">
+                    <strong>Ropa:</strong> Ligera y cómoda<br />
+                    <strong>Calzado:</strong> Sandalias o cómodos<br />
+                    <strong>Otros:</strong> Traje de baño, protector solar,
+                    sombrero, efectivo
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <span class="activity-icon">🛶</span>
+                  <strong>Paseo en lancha Lago Atitlán</strong><br />
+                  Visita a San Juan de la Laguna
+                </td>
+                <td>-</td>
+              </tr>
+              <tr>
+                <td>
+                  <span class="activity-icon">👁️</span>
+                  <strong>Mirador Kaqasiiwaan</strong>
+                </td>
+                <td>
+                  <div class="price-gtq">Entrada: Q10.00</div>
+                  <div class="price-usd">($1.30)</div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <span class="activity-icon">🏠</span>
+                  <strong>Casa Dos Mundos</strong>
+                </td>
+                <td>
+                  <div class="price-gtq">Entrada: Q50.00</div>
+                  <div class="price-usd">($6.50)</div>
+                </td>
+              </tr>
+
+              <!-- Día 5 -->
+              <tr class="day-row">
+                <td colspan="5">
+                  <span class="activity-icon">🎢</span>
+                  SÁBADO 23 DE AGOSTO - DÍA 5: Parque de Diversiones Xetulul
+                </td>
+              </tr>
+              <tr>
+                <td>23 Agosto</td>
+                <td>
+                  <span class="activity-icon">🎠</span>
+                  <strong>Parque de Diversiones Xetulul</strong>
+                </td>
+                <td>
+                  <div class="time">Recogida: 5:00 AM</div>
+                </td>
+                <td>
+                  <div class="price-gtq">Entrada: Q100.00</div>
+                  <div class="price-usd">($13.00)</div>
+                </td>
+                <td>
+                  <div class="recommendations">
+                    <strong>Ropa:</strong> Casual y cómoda<br />
+                    <strong>Calzado:</strong> Deportivo<br />
+                    <strong>Otros:</strong> Protector solar, gorra, agua
+                  </div>
+                </td>
+              </tr>
+
+              <!-- Día 6 -->
+              <tr class="day-row">
+                <td colspan="5">
+                  <span class="activity-icon">🌋</span>
+                  DOMINGO 24 DE AGOSTO - DÍA 6: Ascenso al Volcán Pacaya
+                </td>
+              </tr>
+              <tr>
+                <td>24 Agosto</td>
+                <td>
+                  <span class="activity-icon">🥾</span>
+                  <strong>Ascenso Volcán Pacaya</strong><br />
+                  Opcional: Alquiler de caballo
+                </td>
+                <td>
+                  <div class="time">Recogida: 7:00 AM</div>
+                </td>
+                <td>
+                  <div class="price-gtq">Entrada: Q100.00</div>
+                  <div class="price-usd">($13.00)</div>
+                  <hr style="margin: 5px 0" />
+                  <div class="price-gtq">Caballo: Q200.00</div>
+                  <div class="price-usd">($26.01)</div>
+                </td>
+                <td>
+                  <div class="recommendations">
+                    <strong>Ropa:</strong> Deportiva en capas<br />
+                    <strong>Calzado:</strong> De montaña con tracción<br />
+                    <strong>Otros:</strong> Chaqueta impermeable, agua, snacks,
+                    protector, bastón, efectivo
+                  </div>
+                </td>
+              </tr>
+
+              <!-- Día 7 -->
+              <tr class="day-row">
+                <td colspan="5">
+                  <span class="activity-icon">✈️</span>
+                  LUNES 25 DE AGOSTO - DÍA 7: Regreso a Panamá
+                </td>
+              </tr>
+              <tr>
+                <td>25 Agosto</td>
+                <td>
+                  <span class="activity-icon">🛫</span>
+                  <strong>Vuelo de regreso a Panamá</strong>
+                </td>
+                <td>
+                  <div class="time">Por confirmar</div>
+                </td>
+                <td>-</td>
+                <td>
+                  <div class="recommendations">
+                    <strong>Preparativos:</strong> Check-out hotel, equipaje
+                    listo<br />
+                    <strong>Documentos:</strong> Pasaportes, boletos
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Vista móvil con cards -->
+        <div class="mobile-itinerary">
+          <!-- Día 1 -->
+          <div class="day-card">
+            <div class="day-title">
+              ✈️ MARTES 19 DE AGOSTO - DÍA 1: Llegada a Ciudad de Guatemala
+            </div>
+
+            <div class="activity-card">
+              <div class="activity-header">
+                <div class="activity-name">🦁 Zoológico La Aurora</div>
+                <div class="activity-time">10:30 AM</div>
+              </div>
+              <div class="activity-details">
+                Tours VIP opcionales: Tour de Paquidermos, Tour de Pingüinos,
+                Tour Mixto
+              </div>
+              <div class="activity-info">
+                <div class="info-section">
+                  <div class="info-title">Precios</div>
+                  <div class="info-content">
+                    <div class="price-gtq">Entrada: Q45.00</div>
+                    <div class="price-usd">($5.85)</div>
+                    <div class="price-gtq">Tour Paquidermos: Q200</div>
+                    <div class="price-gtq">Tour Pingüinos: Q250</div>
+                    <div class="price-gtq">Tour Mixto: Q150</div>
+                  </div>
+                </div>
+                <div class="info-section">
+                  <div class="info-title">Recomendaciones</div>
+                  <div class="info-content">
+                    <strong>Ropa:</strong> Ligera y cómoda<br />
+                    <strong>Calzado:</strong> Deportivo<br />
+                    <strong>Otros:</strong> Protector solar, sombrero, agua
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="activity-card">
+              <div class="activity-header">
+                <div class="activity-name">🍽️ Cena en Ciudad Cayala</div>
+                <div class="activity-time">Noche</div>
+              </div>
+              <div class="activity-details">Traslado en Uber</div>
+            </div>
+          </div>
+
+          <!-- Día 2 -->
+          <div class="day-card">
+            <div class="day-title">
+              🏙️ MIÉRCOLES 20 DE AGOSTO - DÍA 2: Ciudad de Guatemala
+            </div>
+
+            <div class="activity-card">
+              <div class="activity-header">
+                <div class="activity-name">🚌 City Tour + 🏛️ Ciudad Cayalá</div>
+                <div class="activity-time">9:00 AM</div>
+              </div>
+              <div class="activity-info">
+                <div class="info-section">
+                  <div class="info-title">Recomendaciones</div>
+                  <div class="info-content">
+                    <strong>Ropa:</strong> Casual y cómoda<br />
+                    <strong>Calzado:</strong> Cómodo para caminar<br />
+                    <strong>Otros:</strong> Efectivo para compras
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Día 3 -->
+          <div class="day-card">
+            <div class="day-title">
+              🏞️ JUEVES 21 DE AGOSTO - DÍA 3: Antigua Guatemala y alrededores
+            </div>
+
+            <div class="activity-card">
+              <div class="activity-header">
+                <div class="activity-name">🏰 Antigua Guatemala</div>
+                <div class="activity-time">7:00 AM</div>
+              </div>
+            </div>
+
+            <div class="activity-card">
+              <div class="activity-header">
+                <div class="activity-name">🧙‍♂️ Hobbitenango</div>
+              </div>
+              <div class="activity-details">
+                Incluye: Transporte interno, juegos ilimitados, miradores y
+                senderos
+              </div>
+              <div class="activity-info">
+                <div class="info-section">
+                  <div class="info-title">Precio</div>
+                  <div class="info-content">
+                    <div class="price-gtq">Q50.00</div>
+                    <div class="price-usd">($6.50)</div>
+                  </div>
+                </div>
+                <div class="info-section">
+                  <div class="info-title">Recomendaciones</div>
+                  <div class="info-content">
+                    <strong>Ropa:</strong> Deportiva y cómoda<br />
+                    <strong>Calzado:</strong> De montaña con tracción<br />
+                    <strong>Otros:</strong> Chaqueta ligera, protector solar
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="activity-card">
+              <div class="activity-header">
+                <div class="activity-name">🌄 Altamira</div>
+              </div>
+              <div class="activity-info">
+                <div class="info-section">
+                  <div class="info-title">Precio</div>
+                  <div class="info-content">
+                    <div class="price-gtq">Q25.00</div>
+                    <div class="price-usd">($3.25)</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Día 4 -->
+          <div class="day-card">
+            <div class="day-title">
+              🌊 VIERNES 22 DE AGOSTO - DÍA 4: Lago Atitlán
+            </div>
+
+            <div class="activity-card">
+              <div class="activity-header">
+                <div class="activity-name">🚗 Traslado a Panajachel</div>
+                <div class="activity-time">4:30 AM</div>
+              </div>
+            </div>
+
+            <div class="activity-card">
+              <div class="activity-header">
+                <div class="activity-name">🛶 Paseo en lancha Lago Atitlán</div>
+              </div>
+              <div class="activity-details">Visita a San Juan de la Laguna</div>
+              <div class="activity-info">
+                <div class="info-section">
+                  <div class="info-title">Recomendaciones</div>
+                  <div class="info-content">
+                    <strong>Ropa:</strong> Ligera y cómoda<br />
+                    <strong>Calzado:</strong> Sandalias o cómodos<br />
+                    <strong>Otros:</strong> Traje de baño, protector solar
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="activity-card">
+              <div class="activity-header">
+                <div class="activity-name">👁️ Mirador Kaqasiiwaan</div>
+              </div>
+              <div class="activity-info">
+                <div class="info-section">
+                  <div class="info-title">Precio</div>
+                  <div class="info-content">
+                    <div class="price-gtq">Q10.00</div>
+                    <div class="price-usd">($1.30)</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="activity-card">
+              <div class="activity-header">
+                <div class="activity-name">🏠 Casa Dos Mundos</div>
+              </div>
+              <div class="activity-info">
+                <div class="info-section">
+                  <div class="info-title">Precio</div>
+                  <div class="info-content">
+                    <div class="price-gtq">Q50.00</div>
+                    <div class="price-usd">($6.50)</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Día 5 -->
+          <div class="day-card">
+            <div class="day-title">
+              🎢 SÁBADO 23 DE AGOSTO - DÍA 5: Parque de Diversiones Xetulul
+            </div>
+
+            <div class="activity-card">
+              <div class="activity-header">
+                <div class="activity-name">
+                  🎠 Parque de Diversiones Xetulul
+                </div>
+                <div class="activity-time">5:00 AM</div>
+              </div>
+              <div class="activity-info">
+                <div class="info-section">
+                  <div class="info-title">Precio</div>
+                  <div class="info-content">
+                    <div class="price-gtq">Q100.00</div>
+                    <div class="price-usd">($13.00)</div>
+                  </div>
+                </div>
+                <div class="info-section">
+                  <div class="info-title">Recomendaciones</div>
+                  <div class="info-content">
+                    <strong>Ropa:</strong> Casual y cómoda<br />
+                    <strong>Calzado:</strong> Deportivo<br />
+                    <strong>Otros:</strong> Protector solar, gorra, agua
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Día 6 -->
+          <div class="day-card">
+            <div class="day-title">
+              🌋 DOMINGO 24 DE AGOSTO - DÍA 6: Ascenso al Volcán Pacaya
+            </div>
+
+            <div class="activity-card">
+              <div class="activity-header">
+                <div class="activity-name">🥾 Ascenso Volcán Pacaya</div>
+                <div class="activity-time">7:00 AM</div>
+              </div>
+              <div class="activity-details">Opcional: Alquiler de caballo</div>
+              <div class="activity-info">
+                <div class="info-section">
+                  <div class="info-title">Precios</div>
+                  <div class="info-content">
+                    <div class="price-gtq">Entrada: Q100.00</div>
+                    <div class="price-usd">($13.00)</div>
+                    <div class="price-gtq">Caballo: Q200.00</div>
+                    <div class="price-usd">($26.01)</div>
+                  </div>
+                </div>
+                <div class="info-section">
+                  <div class="info-title">Recomendaciones</div>
+                  <div class="info-content">
+                    <strong>Ropa:</strong> Deportiva en capas<br />
+                    <strong>Calzado:</strong> De montaña con tracción<br />
+                    <strong>Otros:</strong> Chaqueta impermeable, agua, snacks
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Día 7 -->
+          <div class="day-card">
+            <div class="day-title">
+              ✈️ LUNES 25 DE AGOSTO - DÍA 7: Regreso a Panamá
+            </div>
+
+            <div class="activity-card">
+              <div class="activity-header">
+                <div class="activity-name">🛫 Vuelo de regreso a Panamá</div>
+                <div class="activity-time">Por confirmar</div>
+              </div>
+              <div class="activity-info">
+                <div class="info-section">
+                  <div class="info-title">Recomendaciones</div>
+                  <div class="info-content">
+                    <strong>Preparativos:</strong> Check-out hotel, equipaje
+                    listo<br />
+                    <strong>Documentos:</strong> Pasaportes, boletos
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div
+          style="
+            margin-top: 30px;
+            padding: 20px;
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            border-radius: 15px;
+          "
+        >
+          <h3 style="margin: 0 0 15px 0; color: #2d3436">
+            💰 Resumen de Costos por Persona:
+          </h3>
+          <div
+            style="
+              display: grid;
+              grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+              gap: 15px;
+            "
+          >
+            <div>
+              <strong>Entradas Obligatorias:</strong><br />
+              • Zoológico: Q45.00 ($5.85)<br />
+              • Hobbitenango: Q50.00 ($6.50)<br />
+              • Altamira: Q25.00 ($3.25)<br />
+              • Mirador Kaqasiiwaan: Q10.00 ($1.30)<br />
+              • Casa Dos Mundos: Q50.00 ($6.50)<br />
+              • Xetulul: Q100.00 ($13.00)<br />
+              • Volcán Pacaya: Q100.00 ($13.00)
+            </div>
+            <div>
+              <strong>Total Mínimo:</strong><br />
+              <span style="color: #00b894; font-size: 1.2em; font-weight: bold"
+                >Q380.00 ($49.40)</span
+              ><br /><br />
+              <strong>Opcionales Adicionales:</strong><br />
+              • Tours VIP Zoo: Q150-250 ($19.51-32.51)<br />
+              • Caballo Volcán: Q200 ($26.01)
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer">
+        <p>📍 Itinerario Guatemala 2025 | Generado el 11 de Agosto de 2025</p>
+        <p style="opacity: 0.7; font-size: 0.8em">
+          Precios sujetos a cambios. Verificar antes del viaje.
+        </p>
+      </div>
     </div>
 
     <script>
-        // Lista de actividades del viaje para marcar como completadas
-        const todoItems = [
-            { id: 1, text: "🦁 Zoológico La Aurora", day: "Día 1", completed: false },
-            { id: 2, text: "🍽️ Cena en Ciudad Cayala", day: "Día 1", completed: false },
-            { id: 3, text: "🏙️ City Tour Ciudad de Guatemala", day: "Día 2", completed: false },
-            { id: 4, text: "🏛️ Visita a Ciudad Cayalá", day: "Día 2", completed: false },
-            { id: 5, text: "🏰 Antigua Guatemala", day: "Día 3", completed: false },
-            { id: 6, text: "🧙‍♂️ Hobbitenango", day: "Día 3", completed: false },
-            { id: 7, text: "🌄 Altamira", day: "Día 3", completed: false },
-            { id: 8, text: "🚗 Traslado a Panajachel", day: "Día 4", completed: false },
-            { id: 9, text: "🛶 Paseo en lancha Lago Atitlán", day: "Día 4", completed: false },
-            { id: 10, text: "👁️ Mirador Kaqasiiwaan", day: "Día 4", completed: false },
-            { id: 11, text: "🏠 Casa Dos Mundos", day: "Día 4", completed: false },
-            { id: 12, text: "🎢 Parque de Diversiones Xetulul", day: "Día 5", completed: false },
-            { id: 13, text: "🌋 Ascenso al Volcán Pacaya", day: "Día 6", completed: false }
-        ];
+      // Lista de actividades del viaje para marcar como completadas
+      const todoItems = [
+        {
+          id: 1,
+          text: "🦁 Zoológico La Aurora",
+          day: "Día 1",
+          completed: false,
+        },
+        {
+          id: 2,
+          text: "🍽️ Cena en Ciudad Cayala",
+          day: "Día 1",
+          completed: false,
+        },
+        {
+          id: 3,
+          text: "🏙️ City Tour Ciudad de Guatemala",
+          day: "Día 2",
+          completed: false,
+        },
+        {
+          id: 4,
+          text: "🏛️ Visita a Ciudad Cayalá",
+          day: "Día 2",
+          completed: false,
+        },
+        { id: 5, text: "🏰 Antigua Guatemala", day: "Día 3", completed: false },
+        { id: 6, text: "🧙‍♂️ Hobbitenango", day: "Día 3", completed: false },
+        { id: 7, text: "🌄 Altamira", day: "Día 3", completed: false },
+        {
+          id: 8,
+          text: "🚗 Traslado a Panajachel",
+          day: "Día 4",
+          completed: false,
+        },
+        {
+          id: 9,
+          text: "🛶 Paseo en lancha Lago Atitlán",
+          day: "Día 4",
+          completed: false,
+        },
+        {
+          id: 10,
+          text: "👁️ Mirador Kaqasiiwaan",
+          day: "Día 4",
+          completed: false,
+        },
+        { id: 11, text: "🏠 Casa Dos Mundos", day: "Día 4", completed: false },
+        {
+          id: 12,
+          text: "🎢 Parque de Diversiones Xetulul",
+          day: "Día 5",
+          completed: false,
+        },
+        {
+          id: 13,
+          text: "🌋 Ascenso al Volcán Pacaya",
+          day: "Día 6",
+          completed: false,
+        },
+      ];
 
-        // Cargar estado desde localStorage (si está disponible)
-        function loadTodoState() {
-            try {
-                const saved = localStorage.getItem('guatemalaTodos');
-                if (saved) {
-                    const savedItems = JSON.parse(saved);
-                    savedItems.forEach((savedItem, index) => {
-                        if (todoItems[index]) {
-                            todoItems[index].completed = savedItem.completed;
-                        }
-                    });
+      // Función para verificar si localStorage está disponible
+      function isLocalStorageAvailable() {
+        try {
+          const test = "__test__";
+          localStorage.setItem(test, test);
+          localStorage.removeItem(test);
+          return true;
+        } catch (e) {
+          return false;
+        }
+      }
+
+      // Variable para almacenar el estado en memoria si localStorage no está disponible
+      let todoState = null;
+
+      // Cargar estado
+      function loadTodoState() {
+        if (isLocalStorageAvailable()) {
+          try {
+            const saved = localStorage.getItem("guatemalaTodos");
+            if (saved) {
+              const savedItems = JSON.parse(saved);
+              savedItems.forEach((savedItem, index) => {
+                if (todoItems[index]) {
+                  todoItems[index].completed = savedItem.completed;
                 }
-            } catch (e) {
-                // Si localStorage no está disponible, usar estado en memoria
-                console.log('localStorage no disponible, usando estado en memoria');
+              });
             }
+          } catch (e) {
+            console.log("Error cargando desde localStorage");
+          }
+        } else {
+          // Usar estado en memoria
+          if (todoState) {
+            todoState.forEach((savedItem, index) => {
+              if (todoItems[index]) {
+                todoItems[index].completed = savedItem.completed;
+              }
+            });
+          }
+        }
+      }
+
+      // Guardar estado
+      function saveTodoState() {
+        if (isLocalStorageAvailable()) {
+          try {
+            localStorage.setItem("guatemalaTodos", JSON.stringify(todoItems));
+          } catch (e) {
+            console.log("Error guardando en localStorage");
+          }
+        } else {
+          // Guardar en memoria
+          todoState = JSON.parse(JSON.stringify(todoItems));
+        }
+      }
+
+      // Actualizar contador
+      function updateCountdown() {
+        const tripDate = new Date("2025-08-19T10:30:00");
+        const now = new Date();
+        const diff = tripDate - now;
+
+        const countdownContainer = document.querySelector(
+          ".countdown-container"
+        );
+        const countdownEl = document.getElementById("countdown");
+
+        if (diff <= 0) {
+          // Ocultar completamente el contador cuando llegue la fecha
+          countdownContainer.style.display = "none";
+          return;
         }
 
-        // Guardar estado en localStorage (si está disponible)
-        function saveTodoState() {
-            try {
-                localStorage.setItem('guatemalaTodos', JSON.stringify(todoItems));
-            } catch (e) {
-                // Si localStorage no está disponible, continuar sin guardar
-                console.log('localStorage no disponible');
-            }
-        }
+        // Mostrar el contador si aún falta tiempo
+        countdownContainer.style.display = "block";
 
-        // Actualizar contador
-        function updateCountdown() {
-            const tripDate = new Date('2025-08-19T10:30:00');
-            const now = new Date();
-            const diff = tripDate - now;
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor(
+          (diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+        );
+        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
 
-            const countdownEl = document.getElementById('countdown');
-
-            if (diff <= 0) {
-                countdownEl.innerHTML = '<div class="countdown-item"><span class="countdown-number">🎉</span><span class="countdown-label">¡Es hora del viaje!</span></div>';
-                return;
-            }
-
-            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-
-            countdownEl.innerHTML = `
+        countdownEl.innerHTML = `
                 <div class="countdown-item">
                     <span class="countdown-number">${days}</span>
                     <span class="countdown-label">Días</span>
@@ -978,118 +1515,149 @@
                     <span class="countdown-label">Segundos</span>
                 </div>
             `;
+      }
+
+      // Toggle de la sección TODO
+      function toggleTodoSection() {
+        const todoContent = document.getElementById("todoContent");
+        const todoToggle = document.getElementById("todoToggle");
+
+        if (todoContent.classList.contains("collapsed")) {
+          todoContent.classList.remove("collapsed");
+          todoContent.classList.add("expanded");
+          todoToggle.classList.remove("collapsed");
+          todoToggle.textContent = "🔽";
+        } else {
+          todoContent.classList.remove("expanded");
+          todoContent.classList.add("collapsed");
+          todoToggle.classList.add("collapsed");
+          todoToggle.textContent = "▶️";
         }
+      }
 
-        // Renderizar lista de tareas
-        function renderTodoList() {
-            const todoListEl = document.getElementById('todoList');
-            const completedCount = todoItems.filter(item => item.completed).length;
-            const totalCount = todoItems.length;
-            const progressPercentage = (completedCount / totalCount) * 100;
+      // Renderizar lista de tareas
+      function renderTodoList() {
+        const todoListEl = document.getElementById("todoList");
+        const completedCount = todoItems.filter(
+          (item) => item.completed
+        ).length;
+        const totalCount = todoItems.length;
+        const progressPercentage = (completedCount / totalCount) * 100;
 
-            // Actualizar barra de progreso
-            document.getElementById('progressBar').style.width = progressPercentage + '%';
-            document.getElementById('progressText').textContent = `${completedCount} de ${totalCount} tareas completadas`;
+        // Actualizar barra de progreso
+        document.getElementById("progressBar").style.width =
+          progressPercentage + "%";
+        document.getElementById(
+          "progressText"
+        ).textContent = `${completedCount} de ${totalCount} actividades completadas`;
 
-            // Renderizar items
-            todoListEl.innerHTML = todoItems.map(item => `
-                <div class="todo-item ${item.completed ? 'completed' : ''}" onclick="toggleTodo(${item.id})">
+        // Renderizar items
+        todoListEl.innerHTML = todoItems
+          .map(
+            (item) => `
+                <div class="todo-item ${
+                  item.completed ? "completed" : ""
+                }" onclick="toggleTodo(${item.id})">
                     <div class="todo-checkbox">
-                        ${item.completed ? '✓' : ''}
+                        ${item.completed ? "✓" : ""}
                     </div>
                     <div class="todo-text">
                         <div>${item.text}</div>
                         <div class="activity-day">${item.day}</div>
                     </div>
                 </div>
-            `).join('');
+            `
+          )
+          .join("");
+      }
+
+      // Toggle estado de tarea
+      function toggleTodo(id) {
+        const item = todoItems.find((item) => item.id === id);
+        if (item) {
+          item.completed = !item.completed;
+          saveTodoState();
+          renderTodoList();
         }
+      }
 
-        // Toggle estado de tarea
-        function toggleTodo(id) {
-            const item = todoItems.find(item => item.id === id);
-            if (item) {
-                item.completed = !item.completed;
-                saveTodoState();
-                renderTodoList();
-            }
+      async function downloadPDF() {
+        const { jsPDF } = window.jspdf;
+        const element = document.querySelector(".container");
+
+        // Ocultar elementos interactivos antes de capturar
+        document.querySelector(".button-group").style.display = "none";
+        document.querySelector(".countdown-container").style.display = "none";
+        document.querySelector(".todo-container").style.display = "none";
+
+        // Asegurar que se muestre la tabla en el PDF
+        const mobileView = document.querySelector(".mobile-itinerary");
+        const tableView = document.querySelector("table");
+        if (mobileView) mobileView.style.display = "none";
+        if (tableView) tableView.style.display = "table";
+
+        try {
+          // Usar html2canvas para capturar el contenido
+          const canvas = await html2canvas(element, {
+            scale: 1.2,
+            useCORS: true,
+            allowTaint: true,
+            backgroundColor: "#ffffff",
+            height: element.scrollHeight,
+            width: element.scrollWidth,
+          });
+
+          const imgData = canvas.toDataURL("image/png");
+
+          // Crear PDF en orientación vertical (portrait)
+          const pdf = new jsPDF("p", "mm", "a4");
+          const pdfWidth = pdf.internal.pageSize.getWidth();
+          const pdfHeight = pdf.internal.pageSize.getHeight();
+
+          // Calcular dimensiones para que todo quepa en una página
+          const imgAspectRatio = canvas.width / canvas.height;
+
+          let imgWidth = pdfWidth - 20;
+          let imgHeight = imgWidth / imgAspectRatio;
+
+          // Si la altura calculada excede la página, ajustar por altura
+          if (imgHeight > pdfHeight - 20) {
+            imgHeight = pdfHeight - 20;
+            imgWidth = imgHeight * imgAspectRatio;
+          }
+
+          // Centrar la imagen en la página
+          const xOffset = (pdfWidth - imgWidth) / 2;
+          const yOffset = (pdfHeight - imgHeight) / 2;
+
+          // Agregar imagen al PDF
+          pdf.addImage(imgData, "PNG", xOffset, yOffset, imgWidth, imgHeight);
+
+          // Descargar el PDF
+          pdf.save("Itinerario-Guatemala-2025.pdf");
+        } catch (error) {
+          console.error("Error generando PDF:", error);
+          alert(
+            'Error al generar el PDF. Usa la opción de imprimir y selecciona "Guardar como PDF".'
+          );
+        } finally {
+          // Mostrar elementos nuevamente
+          document.querySelector(".button-group").style.display = "flex";
+          document.querySelector(".countdown-container").style.display =
+            "block";
+          document.querySelector(".todo-container").style.display = "block";
         }
+      }
 
-        async function downloadPDF() {
-            const { jsPDF } = window.jspdf;
-            const element = document.querySelector('.container');
+      // Inicializar cuando se carga la página
+      window.addEventListener("load", function () {
+        loadTodoState();
+        renderTodoList();
+        updateCountdown();
 
-            // Ocultar elementos interactivos antes de capturar
-            document.querySelector('.button-group').style.display = 'none';
-            document.querySelector('.countdown-container').style.display = 'none';
-            document.querySelector('.todo-container').style.display = 'none';
-
-            // Ocultar hint de scroll en móviles
-            const scrollHint = document.querySelector('.table-scroll-hint');
-            if (scrollHint) scrollHint.style.display = 'none';
-
-            try {
-                // Usar html2canvas para capturar el contenido
-                const canvas = await html2canvas(element, {
-                    scale: 1.2,
-                    useCORS: true,
-                    allowTaint: true,
-                    backgroundColor: '#ffffff',
-                    height: element.scrollHeight,
-                    width: element.scrollWidth
-                });
-
-                const imgData = canvas.toDataURL('image/png');
-
-                // Crear PDF en orientación vertical (portrait)
-                const pdf = new jsPDF('p', 'mm', 'a4'); // 'p' = portrait
-                const pdfWidth = pdf.internal.pageSize.getWidth(); // ~210mm
-                const pdfHeight = pdf.internal.pageSize.getHeight(); // ~297mm
-
-                // Calcular dimensiones para que todo quepa en una página
-                const imgAspectRatio = canvas.width / canvas.height;
-
-                let imgWidth = pdfWidth - 20; // Margen de 10mm a cada lado
-                let imgHeight = imgWidth / imgAspectRatio;
-
-                // Si la altura calculada excede la página, ajustar por altura
-                if (imgHeight > pdfHeight - 20) {
-                    imgHeight = pdfHeight - 20; // Margen de 10mm arriba y abajo
-                    imgWidth = imgHeight * imgAspectRatio;
-                }
-
-                // Centrar la imagen en la página
-                const xOffset = (pdfWidth - imgWidth) / 2;
-                const yOffset = (pdfHeight - imgHeight) / 2;
-
-                // Agregar imagen al PDF (todo en una sola página)
-                pdf.addImage(imgData, 'PNG', xOffset, yOffset, imgWidth, imgHeight);
-
-                // Descargar el PDF
-                pdf.save('Itinerario-Guatemala-2025.pdf');
-
-            } catch (error) {
-                console.error('Error generando PDF:', error);
-                alert('Error al generar el PDF. Usa la opción de imprimir y selecciona "Guardar como PDF".');
-            } finally {
-                // Mostrar elementos nuevamente
-                document.querySelector('.button-group').style.display = 'flex';
-                document.querySelector('.countdown-container').style.display = 'block';
-                document.querySelector('.todo-container').style.display = 'block';
-                if (scrollHint) scrollHint.style.display = 'block';
-            }
-        }
-
-        // Inicializar cuando se carga la página
-        window.addEventListener('load', function () {
-            loadTodoState();
-            renderTodoList();
-            updateCountdown();
-
-            // Actualizar contador cada segundo
-            setInterval(updateCountdown, 1000);
-        });
+        // Actualizar contador cada segundo
+        setInterval(updateCountdown, 1000);
+      });
     </script>
-</body>
-
+  </body>
 </html>
